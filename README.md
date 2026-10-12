@@ -1,9 +1,9 @@
 # Elanex Spices
 
 Elanex Spices is a cardamom cultivator and seller website. The repository is
-organized as a Next.js frontend in `elanexUI` and a Django REST backend in
-`elanexBE`.
+organized as a Vite/TanStack React frontend in `elanexUI` and a Django REST
+backend in `elanexBE`.
 
-The backend currently contains the API foundation and a health endpoint. The
-marketing UI and future ecommerce features can be added independently as the
-project evolves.
+The frontend currently displays the marketing UI and reports Django API health.
+The backend provides the API foundation, with future ecommerce features to be
+added independently as the project evolves.

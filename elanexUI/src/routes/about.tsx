@@ -1,0 +1,8 @@
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { metadata } from '@/lib/products';
+import { AromaBanner } from '@/components/store/sections';
+import farm from '@/assets/kerala-farm.jpg';
+export const Route=createFileRoute('/about')({head:()=>metadata('Our Farm & Story','Meet Elanex Spices, a cardamom brand inspired by the lush mountain farms and natural flavours of Kerala.'),component:About});
+function About(){return <><div className="container-site"><div className="page-heading"><div className="section-kicker">From Grower to Global Market</div><h1>A Story from the Hills</h1><p>Good cardamom begins long before it reaches your kitchen.</p></div><div className="content-split"><img src={farm} alt="Traditional farmhouse surrounded by cardamom plants in Kerala" className="content-image" width={1280} height={1024}/><div><h2 className="section-title">Our farm. Our little world.</h2><span className="title-rule"/><p className="body-copy">In the cool, green hills of Idukki, cardamom grows under a canopy of shade. Rich soil, mountain rain and careful cultivation give each little pod its distinctive character.</p><p className="body-copy mt-4">Elanex Spices celebrates this connection between the land and the kitchen. We believe the best spices should be simple: carefully grown, thoughtfully selected and full of natural aroma.</p><p className="body-copy mt-4 mb-6">From everyday chai to recipes passed down through generations, our cardamom brings a taste of Kerala to the moments that matter.</p><Button asChild variant="pill"><Link to="/our-process">Follow the Journey <ArrowRight/></Link></Button></div></div></div><AromaBanner/></>;}

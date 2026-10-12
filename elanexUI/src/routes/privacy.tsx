@@ -1,0 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { metadata } from '@/lib/products';
+export const Route=createFileRoute('/privacy')({head:()=>metadata('Privacy','Understand how the current Elanex Spices storefront preview handles information.'),component:Privacy});
+function Privacy(){return <div className="container-site page-section"><div className="page-heading"><h1>Privacy</h1><p>Current storefront preview.</p></div><div className="max-w-3xl body-copy"><p>The enquiry and checkout forms in this preview do not transmit or save entered details. Cart selections are held only during your current browsing session and reset when the page is reloaded.</p><p className="mt-5">Do not enter real personal or payment information. A complete business privacy policy covering orders, payment providers, retention and contact details must be approved before live selling is enabled.</p></div></div>;}

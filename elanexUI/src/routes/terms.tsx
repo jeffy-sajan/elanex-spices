@@ -1,0 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { metadata } from '@/lib/products';
+export const Route=createFileRoute('/terms')({head:()=>metadata('Terms & Conditions','Read the limitations of the Elanex Spices shopping preview and indicative product information.'),component:Terms});
+function Terms(){return <div className="container-site page-section"><div className="page-heading"><h1>Terms & Conditions</h1><p>Current storefront preview.</p></div><div className="max-w-3xl body-copy"><p>This website is a preview of the proposed Elanex Spices store. Product prices, descriptions, brand information and imagery are illustrative and require business approval.</p><p className="mt-5">Adding products to the cart or reviewing checkout does not place an order or establish a sale. No payments are accepted. Final terms, tax treatment, stock availability, delivery commitments and customer support details must be confirmed before launch.</p></div></div>;}

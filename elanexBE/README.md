@@ -29,7 +29,7 @@ contain the Supabase PostgreSQL connection string. Never commit `.env` or
 database credentials.
 
 `CORS_ALLOWED_ORIGINS` accepts a comma-separated list and defaults to the
-local Next.js development origin.
+local frontend development origins.
 
 ## Validation
 

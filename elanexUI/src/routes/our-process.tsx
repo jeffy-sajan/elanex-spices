@@ -1,0 +1,6 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { metadata } from '@/lib/products';
+import { ProcessSection, AromaBanner } from '@/components/store/sections';
+import plant from '@/assets/cardamom-plant.jpg';
+export const Route=createFileRoute('/our-process')({head:()=>metadata('Our Process','Follow the cardamom journey through cultivation, harvesting, grading, packing and delivery.'),component:Process});
+function Process(){return <><div className="container-site"><div className="page-heading"><div className="section-kicker">Care at every step</div><h1>From Farm to Your Home</h1><p>A simple journey, guided by patience and attention to detail.</p></div><div className="content-split"><img src={plant} alt="Green cardamom pods on the plant" className="content-image" width={1536} height={1024}/><div><h2 className="section-title">Small pods. A thoughtful process.</h2><span className="title-rule"/><p className="body-copy">We begin with the land: shade, moisture and the right growing conditions. Pods are harvested with care, then cleaned, dried and selected by size.</p><p className="body-copy mt-4">Each grade has its place, from bold premium pods to an everyday mix. Thoughtful packing helps preserve the fragrance until the moment you open your pack.</p></div></div></div><ProcessSection/><AromaBanner/></>;}
