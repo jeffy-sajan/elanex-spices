@@ -1,11 +1,10 @@
 import { Link, useRouterState } from '@tanstack/react-router';
 import { useState } from 'react';
 import { ShoppingCart, Menu, X, MapPin, ArrowUpRight } from 'lucide-react';
-import logo from '@/assets/elanex-logo.png';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/lib/cart';
 import { BackendStatus } from '@/components/backend-status';
-export function Brand() { return <Link to="/" className="brand" aria-label="Elanex Spices home"><img src={logo.url} alt="Elanex Spices — From Grower to Global Market" className="brand-logo"/></Link>; }
+export function Brand() { return <Link to="/" className="brand" aria-label="Elanex Spices home"><img src="/elanex-logo.png" alt="Elanex Spices — From Grower to Global Market" className="brand-logo"/></Link>; }
 export function Header() {
  const { count } = useCart(); const [open,setOpen] = useState(false);
  const pathname = useRouterState({ select: s => s.location.pathname });
