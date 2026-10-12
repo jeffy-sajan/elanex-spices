@@ -22,9 +22,11 @@ The health endpoint is available at
 
 ## Configuration
 
-The default local database is SQLite. Set `DATABASE_URL` to the Supabase
-PostgreSQL connection string in deployment environments. Never commit `.env`
-or database credentials.
+Set `DJANGO_DEBUG=True` for local development; SQLite is available only in
+development mode. Set `DJANGO_DEBUG=False` in deployment environments, where
+both `DJANGO_SECRET_KEY` and `DATABASE_URL` are required. `DATABASE_URL` must
+contain the Supabase PostgreSQL connection string. Never commit `.env` or
+database credentials.
 
 `CORS_ALLOWED_ORIGINS` accepts a comma-separated list and defaults to the
 local Next.js development origin.
