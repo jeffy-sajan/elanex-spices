@@ -1,7 +1,7 @@
 import { Link, useRouterState } from '@tanstack/react-router';
 import { useState } from 'react';
 import { ShoppingCart, Menu, X, MapPin, ArrowUpRight } from 'lucide-react';
-import logo from '@/assets/elanex-logo.png.asset.json';
+import logo from '@/assets/elanex-logo.png';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/lib/cart';
 import { BackendStatus } from '@/components/backend-status';
