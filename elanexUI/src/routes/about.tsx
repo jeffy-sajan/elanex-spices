@@ -120,7 +120,7 @@ function About() {
             <h2 className="section-title">Built on quality and trust.</h2>
             <span className="title-rule" />
           </div>
-          <div className="why-grid">
+          <div className="why-grid commitment-grid">
             {commitments.map((commitment) => (
               <div key={commitment.title}>
                 <div className="why-icon">
