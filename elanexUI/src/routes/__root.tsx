@@ -8,7 +8,7 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -74,6 +74,39 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   );
 }
 
+function StartupScreen() {
+  const [leaving, setLeaving] = useState(false);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const exitTimer = window.setTimeout(() => setLeaving(true), 2000);
+    const removeTimer = window.setTimeout(() => setVisible(false), 2750);
+
+    return () => {
+      window.clearTimeout(exitTimer);
+      window.clearTimeout(removeTimer);
+    };
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div
+      className={`startup-screen${leaving ? " startup-screen-leaving" : ""}`}
+      aria-label="Loading Elanex Spices"
+      role="status"
+    >
+      <img
+        src="/elanex-logo.png"
+        alt="Elanex Spices"
+        className="startup-logo"
+        width={260}
+        height={260}
+      />
+    </div>
+  );
+}
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -121,6 +154,7 @@ function RootComponent() {
       <Header />
       <main><Outlet /></main>
       <Footer />
+      <StartupScreen />
     </QueryClientProvider>
   );
 }
