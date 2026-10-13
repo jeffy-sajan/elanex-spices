@@ -101,6 +101,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
+if SUPABASE_URL.endswith("/rest/v1"):
+    SUPABASE_URL = SUPABASE_URL[: -len("/rest/v1")]
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 SUPABASE_STORAGE_BUCKET = os.getenv(
     "SUPABASE_STORAGE_BUCKET",

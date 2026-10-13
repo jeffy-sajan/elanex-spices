@@ -60,8 +60,15 @@ def upload_product_image(uploaded_file) -> tuple[str, str]:
                 raise RuntimeError(
                     f"Supabase Storage upload failed with status {response.status}."
                 )
-    except (HTTPError, URLError) as error:
-        raise RuntimeError("Supabase Storage image upload failed.") from error
+    except HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")[:300]
+        raise RuntimeError(
+            f"Supabase Storage image upload failed (HTTP {error.code}): {detail}"
+        ) from error
+    except URLError as error:
+        raise RuntimeError(
+            f"Supabase Storage image upload failed: {error.reason}"
+        ) from error
 
     public_url = (
         f"{settings.SUPABASE_URL}/storage/v1/object/public/"
@@ -91,5 +98,12 @@ def delete_product_image(path: str) -> None:
                 raise RuntimeError(
                     f"Supabase Storage deletion failed with status {response.status}."
                 )
-    except (HTTPError, URLError) as error:
-        raise RuntimeError("Supabase Storage image deletion failed.") from error
+    except HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")[:300]
+        raise RuntimeError(
+            f"Supabase Storage image deletion failed (HTTP {error.code}): {detail}"
+        ) from error
+    except URLError as error:
+        raise RuntimeError(
+            f"Supabase Storage image deletion failed: {error.reason}"
+        ) from error
