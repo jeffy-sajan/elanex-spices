@@ -196,6 +196,9 @@
 .contact-info { display: flex; gap: 15px; margin-top: 25px; font-size: 13px; }
 .contact-info svg { color: var(--primary); width: 20px; }
 .contact-info p { color: var(--muted-foreground); font-size: 12px; margin-top: 6px; }
+.contact-address { display: flex; align-items: flex-start; gap: 8px; line-height: 1.7; }
+.contact-address svg { flex-shrink: 0; margin-top: 3px; }
+.contact-gstin { color: var(--muted-foreground); font-size: 12px; }
 .notice { border: 1px solid var(--border); background: var(--secondary); color: var(--secondary-foreground); border-radius: 4px; padding: 17px 20px; font-size: 12px; line-height: 1.8; }
 @media (max-width: 1050px) {
   .container-site { width: calc(100% - 48px); } .main-nav { gap: 17px; } .header-actions { gap: 10px; } .brand-name { font-size: 23px; } .brand-icon { width: 30px; } .header-inner { gap: 15px; } .farm-intro { gap: 35px; } .hero h1 { font-size: 48px; } .footer-grid { gap: 25px; }
