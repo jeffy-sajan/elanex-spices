@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from '@tanstack/react-router';
 import { Leaf, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { fetchProducts, products as initialProducts, metadata, type Product } from '@/lib/products';
+import { fetchProducts, metadata, type Product } from '@/lib/products';
 import { useEffect, useState } from 'react';
 import { ProductCard } from '@/components/store/product-card';
 import { FarmIntro, AromaBanner, SectionHeading, ProcessSection, WhySection, CardamomUses } from '@/components/store/sections';
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 function Index() {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => { fetchProducts().then(setProducts).catch(() => undefined); }, []);
   return (
     <>
