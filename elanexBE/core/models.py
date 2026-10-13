@@ -15,7 +15,7 @@ class Product(models.Model):
         max_digits=10,
         decimal_places=2,
         validators=[MinValueValidator(0.01)],
-        help_text="Price for the 100g pack, in Indian rupees.",
+        help_text="Price in Indian rupees.",
     )
     image_url = models.URLField(max_length=500)
     image_path = models.CharField(max_length=500, blank=True)
@@ -28,7 +28,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ("name",)
+        ordering = ("created_at", "id")
 
     def save(self, *args, **kwargs):
         if not self.slug:

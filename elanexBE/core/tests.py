@@ -23,6 +23,25 @@ class HealthCheckTests(SimpleTestCase):
 
 
 class ProductApiTests(TestCase):
+    def test_products_are_returned_oldest_first(self):
+        first = Product.objects.create(
+            name="First Product",
+            price="100.00",
+            image_url="https://example.com/first.png",
+        )
+        second = Product.objects.create(
+            name="Second Product",
+            price="200.00",
+            image_url="https://example.com/second.png",
+        )
+
+        response = APIClient().get("/api/products/")
+
+        self.assertEqual(
+            [product["id"] for product in response.data],
+            [first.slug, second.slug],
+        )
+
     def test_products_include_category(self):
         Product.objects.create(
             name="Visible Cardamom",
