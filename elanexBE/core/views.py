@@ -81,6 +81,7 @@ class ContactMessageView(APIView):
             headers={
                 "Authorization": f"Bearer {settings.RESEND_API_KEY}",
                 "Content-Type": "application/json",
+                "User-Agent": "Elanex-Spices-Contact-Form/1.0",
             },
             method="POST",
         )
