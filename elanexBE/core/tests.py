@@ -2,11 +2,12 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from django.contrib import admin
-from django.db import IntegrityError
+from django.db import DatabaseError, IntegrityError
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.test import APIClient
+from rest_framework.throttling import ScopedRateThrottle
 
 from .admin import ProductAdminForm
 from .models import Product
@@ -21,8 +22,28 @@ class HealthCheckTests(SimpleTestCase):
             {"status": "ok", "service": "elanex-api"},
         )
 
+    @patch("core.views.Product.objects.all", side_effect=DatabaseError("database unavailable"))
+    def test_catalogue_database_failure_returns_safe_error(self, products):
+        response = APIClient().get("/api/products/")
+
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(
+            response.data,
+            {"detail": "The product catalogue is temporarily unavailable."},
+        )
+
 
 class ContactMessageTests(SimpleTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls._old_throttle_rates = ScopedRateThrottle.THROTTLE_RATES
+        ScopedRateThrottle.THROTTLE_RATES = {"contact": "100/minute"}
+
+    @classmethod
+    def tearDownClass(cls):
+        ScopedRateThrottle.THROTTLE_RATES = cls._old_throttle_rates
+        super().tearDownClass()
     @patch("core.views.urllib_request.urlopen")
     @patch("core.views.settings.CONTACT_FROM_EMAIL", "website@example.com")
     @patch("core.views.settings.RESEND_API_KEY", "re_test")

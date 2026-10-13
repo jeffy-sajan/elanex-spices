@@ -1,13 +1,20 @@
 import json
+import logging
 from urllib import error as urllib_error
 from urllib import request as urllib_request
 
 from django.conf import settings
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.db import DatabaseError
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_502_BAD_GATEWAY
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
 from .models import Product
+
+logger = logging.getLogger(__name__)
 
 class HealthCheckView(APIView):
     authentication_classes = []
@@ -28,9 +35,9 @@ class ProductListView(APIView):
     permission_classes = []
 
     def get(self, request):
-        products = Product.objects.all()
-        return Response(
-            [
+        try:
+            products = Product.objects.all()
+            product_data = [
                 {
                     "id": product.slug,
                     "name": product.name,
@@ -40,7 +47,15 @@ class ProductListView(APIView):
                     "category": product.category,
                 }
                 for product in products
-            ],
+            ]
+        except DatabaseError:
+            logger.exception("Product catalogue request failed")
+            return Response(
+                {"detail": "The product catalogue is temporarily unavailable."},
+                status=503,
+            )
+        return Response(
+            product_data,
             status=HTTP_200_OK,
         )
 
@@ -51,6 +66,8 @@ products_list = ProductListView.as_view()
 class ContactMessageView(APIView):
     authentication_classes = []
     permission_classes = []
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "contact"
 
     def post(self, request):
         name = str(request.data.get("name", "")).strip()
@@ -59,7 +76,9 @@ class ContactMessageView(APIView):
 
         if not name or len(name) > 120:
             return Response({"detail": "Enter a valid name."}, status=HTTP_400_BAD_REQUEST)
-        if "@" not in email or len(email) > 254:
+        try:
+            validate_email(email)
+        except ValidationError:
             return Response({"detail": "Enter a valid email address."}, status=HTTP_400_BAD_REQUEST)
         if not message or len(message) > 5000:
             return Response({"detail": "Enter a message up to 5,000 characters."}, status=HTTP_400_BAD_REQUEST)
@@ -92,6 +111,7 @@ class ContactMessageView(APIView):
                         email_request.full_url, response.status, "Resend rejected the email", response.headers, None
                     )
         except (urllib_error.HTTPError, urllib_error.URLError, TimeoutError):
+            logger.exception("Contact email provider request failed")
             return Response({"detail": "We could not send your message. Please try again."}, status=HTTP_502_BAD_GATEWAY)
 
         return Response({"detail": "Your message has been sent."}, status=HTTP_200_OK)

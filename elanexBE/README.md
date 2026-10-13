@@ -89,5 +89,13 @@ warning so the Storage object can be removed later.
 
 ```powershell
 python manage.py check
+python manage.py check --deploy
+python manage.py collectstatic --noinput
 python manage.py test
 ```
+
+For deployment, set `DJANGO_DEBUG=False`, a strong `DJANGO_SECRET_KEY`,
+`DJANGO_ALLOWED_HOSTS`, `CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS`, and
+`DATABASE_URL` in the hosting provider's secret environment settings. Run
+migrations before starting the web process and use a production WSGI/ASGI
+server rather than `runserver`.

@@ -3,11 +3,12 @@
 Elanex Spices is currently a marketing and portfolio website for a cardamom
 cultivator and seller.
 
-this is the tech stacks:
-Frontend: Next.js + TypeScript + Tailwind CSS
-Backend: Django + Django REST Framework
-Database: PostgreSQL
-Cache/background: Redis, with Celery added when needed
+Tech stack:
+
+- Frontend: Vite, React, TypeScript, and TanStack Router
+- Backend: Django and Django REST Framework
+- Database: Supabase PostgreSQL
+- Storage: Supabase Storage
 
 This project was built with [Lovable](https://lovable.dev) and uses Vite,
 TanStack Router, and React.
@@ -41,3 +42,7 @@ The frontend calls the Django backend health endpoint using
 ```sh
 cp .env.example .env
 ```
+
+For hosting, set `VITE_API_BASE_URL` to the public HTTPS URL of the Django API
+and rebuild the frontend. Do not add backend secrets, Supabase service-role
+keys, or Resend API keys to frontend environment variables.

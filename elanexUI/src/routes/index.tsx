@@ -13,7 +13,8 @@ export const Route = createFileRoute("/")({
 });
 function Index() {
   const [products, setProducts] = useState<Product[]>([]);
-  useEffect(() => { fetchProducts().then(setProducts).catch(() => undefined); }, []);
+  const [catalogueError, setCatalogueError] = useState(false);
+  useEffect(() => { fetchProducts().then(setProducts).catch(() => setCatalogueError(true)); }, []);
   return (
     <>
       <section className="hero">
@@ -27,7 +28,7 @@ function Index() {
         </div>
       </section>
       <FarmIntro/>
-      <section className="products-section"><div className="container-site"><SectionHeading title="Our Cardamom Products" subtitle="A world of aroma, carefully selected for you."/><div className="product-grid">{products.slice(0,3).map(product=><ProductCard key={product.id} product={product}/>)}</div><div className="view-products"><Button asChild variant="outline"><Link to="/products">View All Products <ArrowRight/></Link></Button></div></div></section>
+      <section className="products-section"><div className="container-site"><SectionHeading title="Our Cardamom Products" subtitle="A world of aroma, carefully selected for you."/>{catalogueError&&<p className="notice">Our latest catalogue is temporarily unavailable. Please visit the Products page and try again.</p>}<div className="product-grid">{products.slice(0,3).map(product=><ProductCard key={product.id} product={product}/>)}</div><div className="view-products"><Button asChild variant="outline"><Link to="/products">View All Products <ArrowRight/></Link></Button></div></div></section>
       <AromaBanner/><ProcessSection/><WhySection/><CardamomUses/>
     </>
   );

@@ -22,9 +22,16 @@ if not DEBUG and (
 
 ALLOWED_HOSTS = [
     host.strip()
-    for host in os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+    for host in os.getenv(
+        "DJANGO_ALLOWED_HOSTS",
+        "localhost,127.0.0.1" if DEBUG else "",
+    ).split(",")
     if host.strip()
 ]
+if not DEBUG and not ALLOWED_HOSTS:
+    raise ImproperlyConfigured(
+        "DJANGO_ALLOWED_HOSTS must contain at least one host when DJANGO_DEBUG is False."
+    )
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -95,10 +102,30 @@ CORS_ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.getenv(
         "CORS_ALLOWED_ORIGINS",
-        "http://localhost:3000,http://localhost:5173,http://localhost:8080,http://localhost:8081",
+        (
+            "http://localhost:3000,http://localhost:5173,"
+            "http://localhost:8080,http://localhost:8081"
+            if DEBUG
+            else ""
+        ),
     ).split(",")
     if origin.strip()
 ]
+if not DEBUG and not CORS_ALLOWED_ORIGINS:
+    raise ImproperlyConfigured(
+        "CORS_ALLOWED_ORIGINS must contain the deployed frontend origin when DJANGO_DEBUG is False."
+    )
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
+if not DEBUG and not CSRF_TRUSTED_ORIGINS:
+    raise ImproperlyConfigured(
+        "CSRF_TRUSTED_ORIGINS must contain the deployed frontend origin when DJANGO_DEBUG is False."
+    )
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
 if SUPABASE_URL.endswith("/rest/v1"):
@@ -123,4 +150,39 @@ REST_FRAMEWORK = {
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],
+    "DEFAULT_THROTTLE_RATES": {
+        "contact": "5/minute",
+    },
+}
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "{levelname} {asctime} {name} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
+        },
+    },
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "INFO"},
+        "core": {"handlers": ["console"], "level": "INFO", "propagate": False},
+    },
 }
