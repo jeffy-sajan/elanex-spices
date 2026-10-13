@@ -49,9 +49,10 @@ Set `SUPABASE_URL` and the server-only `SUPABASE_SERVICE_ROLE_KEY` in `.env`.
 Never expose the service-role key to the frontend.
 
 After starting the server, sign in at `/admin/` and add products under
-**Core > Products**. The admin form accepts only the product name,
-description (optional), price in INR, and a JPEG, PNG, or WebP image. The
-image file is stored in Supabase Storage and its public URL and Storage path
+**Core > Products**. The admin form accepts the product name, category
+(**Cardamom** or **Seeds**), description (optional), price in INR, and a JPEG,
+PNG, or WebP image. The image file is stored in Supabase Storage and its
+public URL and Storage path
 are saved with the product row in Supabase PostgreSQL. Replacing an image
 removes the previous Storage object; deleting a product removes both the
 database row and its Storage object.

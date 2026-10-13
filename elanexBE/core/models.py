@@ -3,6 +3,10 @@ from django.utils.text import slugify
 
 
 class Product(models.Model):
+    class Category(models.TextChoices):
+        CARDAMOM = "cardamom", "Cardamom"
+        SEEDS = "seeds", "Seeds"
+
     name = models.CharField(max_length=160)
     slug = models.SlugField(max_length=180, unique=True)
     description = models.TextField(blank=True, null=True)
@@ -13,6 +17,11 @@ class Product(models.Model):
     )
     image_url = models.URLField(max_length=500)
     image_path = models.CharField(max_length=500, blank=True)
+    category = models.CharField(
+        max_length=20,
+        choices=Category.choices,
+        default=Category.CARDAMOM,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

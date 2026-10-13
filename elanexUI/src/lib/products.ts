@@ -1,12 +1,12 @@
 import productImage from '@/assets/cardamom-product.jpg';
 import heroImage from '@/assets/cardamom-hero.jpg';
 import plantImage from '@/assets/cardamom-plant.jpg';
-export type Product = { id: string; name: string; description: string | null; price: number; image: string };
+export type Product = { id: string; name: string; description: string | null; price: number; image: string; category: 'cardamom' | 'seeds' };
 export const demoProducts: Product[] = [
- { id: 'premium-green-cardamom', name: 'Premium Green Cardamom', description: 'Bold size, rich aroma. Carefully selected for your finest recipes.', price: 1200, image: productImage },
- { id: 'medium-green-cardamom', name: 'Green Cardamom (Medium)', description: 'A beautifully balanced aroma for everyday cooking and chai.', price: 600, image: heroImage },
- { id: 'mixed-size-cardamom', name: 'Cardamom (Mixed Size)', description: 'A natural mix of carefully selected pods, full of authentic flavour.', price: 400, image: productImage },
- { id: 'cardamom-seeds', name: 'Cardamom Seeds', description: 'Aromatic seeds from green cardamom, for grinding and spice blends.', price: 800, image: plantImage },
+ { id: 'premium-green-cardamom', name: 'Premium Green Cardamom', description: 'Bold size, rich aroma. Carefully selected for your finest recipes.', price: 1200, image: productImage, category: 'cardamom' },
+ { id: 'medium-green-cardamom', name: 'Green Cardamom (Medium)', description: 'A beautifully balanced aroma for everyday cooking and chai.', price: 600, image: heroImage, category: 'cardamom' },
+ { id: 'mixed-size-cardamom', name: 'Cardamom (Mixed Size)', description: 'A natural mix of carefully selected pods, full of authentic flavour.', price: 400, image: productImage, category: 'cardamom' },
+ { id: 'cardamom-seeds', name: 'Cardamom Seeds', description: 'Aromatic seeds from green cardamom, for grinding and spice blends.', price: 800, image: plantImage, category: 'seeds' },
 ];
 export let products: Product[] = demoProducts;
 export const packs = [100, 250, 500, 1000];

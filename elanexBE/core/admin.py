@@ -42,7 +42,8 @@ class ProductAdminForm(forms.ModelForm):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
-    list_display = ("name", "price", "updated_at")
+    list_display = ("name", "category", "price", "updated_at")
+    list_filter = ("category",)
     search_fields = ("name", "slug", "description")
     ordering = ("name",)
 
