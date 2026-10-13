@@ -15,4 +15,4 @@ features can be added in a later ecommerce phase.
 Product images are uploaded through the Django admin and stored in a Supabase
 Storage bucket. Product metadata, including the public image URL, is stored in
 Supabase PostgreSQL. See [elanexBE/README.md](./elanexBE/README.md) for local
-setup, Storage configuration, and admin instructions.
+setup, Storage configuration, contact email setup, and admin instructions.

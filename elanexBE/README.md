@@ -35,6 +35,25 @@ database credentials.
 `CORS_ALLOWED_ORIGINS` accepts a comma-separated list and defaults to the
 local frontend development origins.
 
+## Contact form email delivery
+
+The contact form sends the visitor's name, email address, and message to
+`/api/contact/`. Django delivers the message through Resend; the Resend API key
+is never exposed to the frontend.
+
+Create a Resend account, verify the sending domain, and add these server-only
+values to `.env`:
+
+```text
+RESEND_API_KEY=re_...
+CONTACT_FROM_EMAIL=website@your-verified-domain.com
+CONTACT_RECIPIENT_EMAIL=elanexspices@gmail.com
+```
+
+`CONTACT_FROM_EMAIL` must use a verified Resend domain. The visitor's address
+is set as the reply-to address so the client can reply directly from the
+received email. Do not use the visitor's address as the sender.
+
 ## Product administration
 
 Create an admin account once from `elanexBE`:

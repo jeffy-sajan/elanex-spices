@@ -22,6 +22,35 @@ class HealthCheckTests(SimpleTestCase):
         )
 
 
+class ContactMessageTests(SimpleTestCase):
+    @patch("core.views.urllib_request.urlopen")
+    @patch("core.views.settings.CONTACT_FROM_EMAIL", "website@example.com")
+    @patch("core.views.settings.RESEND_API_KEY", "re_test")
+    def test_contact_message_sends_email(self, urlopen):
+        urlopen.return_value.__enter__.return_value.status = 200
+        response = APIClient().post(
+            "/api/contact/",
+            {
+                "name": "A Buyer",
+                "email": "buyer@example.com",
+                "message": "Please share your available grades.",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        urlopen.assert_called_once()
+
+    def test_contact_message_validates_required_fields(self):
+        response = APIClient().post(
+            "/api/contact/",
+            {"name": "", "email": "invalid", "message": ""},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 400)
+
+
 class ProductApiTests(TestCase):
     def test_products_are_returned_oldest_first(self):
         first = Product.objects.create(

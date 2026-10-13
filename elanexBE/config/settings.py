@@ -109,6 +109,13 @@ SUPABASE_STORAGE_BUCKET = os.getenv(
     "product-images",
 )
 
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+CONTACT_RECIPIENT_EMAIL = os.getenv(
+    "CONTACT_RECIPIENT_EMAIL",
+    "elanexspices@gmail.com",
+)
+CONTACT_FROM_EMAIL = os.getenv("CONTACT_FROM_EMAIL", "")
+
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",

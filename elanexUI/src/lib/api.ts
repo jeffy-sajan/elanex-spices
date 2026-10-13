@@ -17,3 +17,22 @@ export async function getHealth(): Promise<HealthResponse> {
 
   return response.json() as Promise<HealthResponse>;
 }
+
+export type ContactMessage = {
+  name: string;
+  email: string;
+  message: string;
+};
+
+export async function sendContactMessage(payload: ContactMessage): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/contact/`, {
+    method: "POST",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const data = (await response.json().catch(() => null)) as { detail?: string } | null;
+    throw new Error(data?.detail ?? "We could not send your message.");
+  }
+}
