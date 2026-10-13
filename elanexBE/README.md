@@ -57,6 +57,12 @@ are saved with the product row in Supabase PostgreSQL. Replacing an image
 removes the previous Storage object; deleting a product removes both the
 database row and its Storage object.
 
+Admin operations fail with an actionable message instead of exposing a
+traceback. If a database save fails after an image upload, the newly uploaded
+image is cleaned up. If old-image cleanup fails after a successful save or
+delete, the database operation remains successful and Django records a
+warning so the Storage object can be removed later.
+
 ## Validation
 
 ```powershell

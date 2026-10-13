@@ -1,6 +1,14 @@
+from types import SimpleNamespace
+from unittest.mock import Mock, patch
+
+from django.contrib import admin
+from django.db import IntegrityError
+from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.test import APIClient
 
+from .admin import ProductAdminForm
 from .models import Product
 
 class HealthCheckTests(SimpleTestCase):
@@ -44,3 +52,70 @@ class ProductApiTests(TestCase):
             set(products_by_id["visible-cardamom"]),
             {"id", "name", "description", "price", "image", "category"},
         )
+
+
+class ProductAdminTests(TestCase):
+    def test_price_must_be_positive(self):
+        product = Product(
+            name="Invalid price",
+            price="0.00",
+            image_url="https://example.com/image.png",
+        )
+
+        with self.assertRaises(ValidationError):
+            product.full_clean()
+
+    def test_admin_form_exposes_only_requested_product_fields(self):
+        self.assertEqual(
+            set(ProductAdminForm().fields),
+            {"name", "description", "price", "category", "image_upload"},
+        )
+
+    @patch("core.admin.storage_is_configured", return_value=False)
+    def test_image_upload_requires_storage_configuration(self, storage_configured):
+        form = ProductAdminForm(
+            data={
+                "name": "Cardamom",
+                "description": "",
+                "price": "1200",
+                "category": Product.Category.CARDAMOM,
+            },
+            files={
+                "image_upload": SimpleUploadedFile(
+                    "cardamom.png",
+                    b"image",
+                    content_type="image/png",
+                )
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("Supabase Storage is not configured", str(form.errors))
+
+    @patch("core.admin.delete_product_image")
+    @patch("core.admin.upload_product_image", return_value=("products/new.png", "https://example.com/new.png"))
+    def test_failed_database_save_removes_newly_uploaded_image(
+        self,
+        upload_image,
+        delete_image,
+    ):
+        existing = Product.objects.create(
+            name="Existing",
+            slug="existing",
+            price="100.00",
+            image_url="https://example.com/existing.png",
+        )
+        duplicate = Product(
+            name="Duplicate",
+            slug=existing.slug,
+            price="200.00",
+            image_url="",
+        )
+        form = SimpleNamespace(cleaned_data={"image_upload": Mock()})
+        product_admin = admin.site._registry[Product]
+
+        with self.assertRaises(IntegrityError):
+            product_admin.save_model(SimpleNamespace(), duplicate, form, False)
+
+        upload_image.assert_called_once()
+        delete_image.assert_called_once_with("products/new.png")

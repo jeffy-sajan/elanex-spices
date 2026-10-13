@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from django.utils.text import slugify
 
 
@@ -13,6 +14,7 @@ class Product(models.Model):
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
+        validators=[MinValueValidator(0.01)],
         help_text="Price for the 100g pack, in Indian rupees.",
     )
     image_url = models.URLField(max_length=500)

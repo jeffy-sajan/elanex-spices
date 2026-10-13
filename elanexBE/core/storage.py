@@ -15,6 +15,10 @@ ALLOWED_IMAGE_TYPES = {
 MAX_IMAGE_SIZE = 5 * 1024 * 1024
 
 
+class StorageOperationError(RuntimeError):
+    """Raised when Supabase Storage cannot complete an image operation."""
+
+
 def storage_is_configured() -> bool:
     return bool(settings.SUPABASE_URL and settings.SUPABASE_SERVICE_ROLE_KEY)
 
@@ -62,11 +66,11 @@ def upload_product_image(uploaded_file) -> tuple[str, str]:
                 )
     except HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")[:300]
-        raise RuntimeError(
+        raise StorageOperationError(
             f"Supabase Storage image upload failed (HTTP {error.code}): {detail}"
         ) from error
     except URLError as error:
-        raise RuntimeError(
+        raise StorageOperationError(
             f"Supabase Storage image upload failed: {error.reason}"
         ) from error
 
@@ -95,15 +99,15 @@ def delete_product_image(path: str) -> None:
     try:
         with urlopen(request, timeout=30) as response:
             if response.status not in (200, 204):
-                raise RuntimeError(
+                raise StorageOperationError(
                     f"Supabase Storage deletion failed with status {response.status}."
                 )
     except HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")[:300]
-        raise RuntimeError(
+        raise StorageOperationError(
             f"Supabase Storage image deletion failed (HTTP {error.code}): {detail}"
         ) from error
     except URLError as error:
-        raise RuntimeError(
+        raise StorageOperationError(
             f"Supabase Storage image deletion failed: {error.reason}"
         ) from error
