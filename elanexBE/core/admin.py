@@ -7,6 +7,7 @@ from .storage import (
     ALLOWED_IMAGE_TYPES,
     MAX_IMAGE_SIZE,
     delete_product_image,
+    storage_is_configured,
     upload_product_image,
 )
 
@@ -26,6 +27,11 @@ class ProductAdminForm(forms.ModelForm):
         if image is None and not self.instance.pk:
             raise ValidationError("An image upload is required for a new product.")
         if image is not None:
+            if not storage_is_configured():
+                raise ValidationError(
+                    "Supabase Storage is not configured. Add SUPABASE_URL and "
+                    "SUPABASE_SERVICE_ROLE_KEY to elanexBE/.env, then restart Django."
+                )
             if image.content_type not in ALLOWED_IMAGE_TYPES:
                 raise ValidationError("Upload a JPEG, PNG, or WebP image.")
             if image.size > MAX_IMAGE_SIZE:

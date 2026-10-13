@@ -15,8 +15,12 @@ ALLOWED_IMAGE_TYPES = {
 MAX_IMAGE_SIZE = 5 * 1024 * 1024
 
 
+def storage_is_configured() -> bool:
+    return bool(settings.SUPABASE_URL and settings.SUPABASE_SERVICE_ROLE_KEY)
+
+
 def _ensure_storage_config() -> None:
-    if not settings.SUPABASE_URL or not settings.SUPABASE_SERVICE_ROLE_KEY:
+    if not storage_is_configured():
         raise ImproperlyConfigured(
             "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required for image uploads."
         )
