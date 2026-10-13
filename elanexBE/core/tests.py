@@ -91,6 +91,10 @@ class ProductApiTests(TestCase):
             [product["id"] for product in response.data],
             [first.slug, second.slug],
         )
+        self.assertEqual(
+            response["Cache-Control"],
+            "public, max-age=300, stale-while-revalidate=60",
+        )
 
     def test_products_include_category(self):
         Product.objects.create(

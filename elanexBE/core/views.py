@@ -54,10 +54,12 @@ class ProductListView(APIView):
                 {"detail": "The product catalogue is temporarily unavailable."},
                 status=503,
             )
-        return Response(
+        response = Response(
             product_data,
             status=HTTP_200_OK,
         )
+        response["Cache-Control"] = "public, max-age=300, stale-while-revalidate=60"
+        return response
 
 
 products_list = ProductListView.as_view()

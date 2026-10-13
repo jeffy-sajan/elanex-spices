@@ -109,3 +109,8 @@ Start Command: cd elanexBE && gunicorn config.wsgi:application
 
 Set the backend's environment variables in Render's Environment page. Never
 paste `.env` into Git or expose server-only values to the frontend.
+
+The public product catalogue uses a five-minute browser/CDN cache. The frontend
+also stores the catalogue locally for five minutes and shares an in-flight
+request when multiple pages request products at the same time. Product changes
+will therefore normally appear within five minutes without requiring Redis.
