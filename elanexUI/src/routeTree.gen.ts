@@ -11,13 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as CartRouteImport } from './routes/cart'
-import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as OurProcessRouteImport } from './routes/our-process'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as ShippingRouteImport } from './routes/shipping'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WhyUsRouteImport } from './routes/why-us'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -31,16 +28,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CartRoute = CartRouteImport.update({
-  id: '/cart',
-  path: '/cart',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CheckoutRoute = CheckoutRouteImport.update({
-  id: '/checkout',
-  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -61,11 +48,6 @@ const OurProcessRoute = OurProcessRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ShippingRoute = ShippingRouteImport.update({
-  id: '/shipping',
-  path: '/shipping',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -92,13 +74,10 @@ const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/our-process': typeof OurProcessRoute
   '/privacy': typeof PrivacyRoute
-  '/shipping': typeof ShippingRoute
   '/terms': typeof TermsRoute
   '/why-us': typeof WhyUsRoute
   '/products/$productId': typeof ProductsProductIdRoute
@@ -107,13 +86,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/our-process': typeof OurProcessRoute
   '/privacy': typeof PrivacyRoute
-  '/shipping': typeof ShippingRoute
   '/terms': typeof TermsRoute
   '/why-us': typeof WhyUsRoute
   '/products/$productId': typeof ProductsProductIdRoute
@@ -123,13 +99,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/our-process': typeof OurProcessRoute
   '/privacy': typeof PrivacyRoute
-  '/shipping': typeof ShippingRoute
   '/terms': typeof TermsRoute
   '/why-us': typeof WhyUsRoute
   '/products/$productId': typeof ProductsProductIdRoute
@@ -140,13 +113,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/cart'
-    | '/checkout'
     | '/contact'
     | '/faq'
     | '/our-process'
     | '/privacy'
-    | '/shipping'
     | '/terms'
     | '/why-us'
     | '/products/$productId'
@@ -155,13 +125,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/cart'
-    | '/checkout'
     | '/contact'
     | '/faq'
     | '/our-process'
     | '/privacy'
-    | '/shipping'
     | '/terms'
     | '/why-us'
     | '/products/$productId'
@@ -170,13 +137,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
-    | '/cart'
-    | '/checkout'
     | '/contact'
     | '/faq'
     | '/our-process'
     | '/privacy'
-    | '/shipping'
     | '/terms'
     | '/why-us'
     | '/products/$productId'
@@ -186,13 +150,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CartRoute: typeof CartRoute
-  CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   OurProcessRoute: typeof OurProcessRoute
   PrivacyRoute: typeof PrivacyRoute
-  ShippingRoute: typeof ShippingRoute
   TermsRoute: typeof TermsRoute
   WhyUsRoute: typeof WhyUsRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
@@ -213,20 +174,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cart': {
-      id: '/cart'
-      path: '/cart'
-      fullPath: '/cart'
-      preLoaderRoute: typeof CartRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/checkout': {
-      id: '/checkout'
-      path: '/checkout'
-      fullPath: '/checkout'
-      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -255,13 +202,6 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/shipping': {
-      id: '/shipping'
-      path: '/shipping'
-      fullPath: '/shipping'
-      preLoaderRoute: typeof ShippingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -298,13 +238,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CartRoute: CartRoute,
-  CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   OurProcessRoute: OurProcessRoute,
   PrivacyRoute: PrivacyRoute,
-  ShippingRoute: ShippingRoute,
   TermsRoute: TermsRoute,
   WhyUsRoute: WhyUsRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,

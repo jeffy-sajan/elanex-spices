@@ -12,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { CartProvider } from "@/lib/cart";
 import { Header, Footer } from "@/components/store/layout";
 
 function NotFoundComponent() {
@@ -118,11 +117,9 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <CartProvider>
-        <Header />
-        <main><Outlet /></main>
-        <Footer />
-      </CartProvider>
+      <Header />
+      <main><Outlet /></main>
+      <Footer />
     </QueryClientProvider>
   );
 }

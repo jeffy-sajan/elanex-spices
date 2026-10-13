@@ -22,8 +22,8 @@ function Index() {
           <div className="eyebrow">Naturally grown. Thoughtfully selected.</div>
           <h1>Pure Cardamom<br/>From Our Hills<br/>to Your Home</h1>
           <p className="hero-description">The finest little treasures from the lush hills of Kerala. Carefully cultivated, selected and packed to bring you exceptional freshness and aroma.</p>
-          <div className="hero-ctas"><Button asChild variant="pill"><Link to="/products">Shop Now <ArrowRight/></Link></Button><Button asChild variant="heroOutline"><Link to="/about">Our Story <ArrowRight/></Link></Button></div>
-          <div className="hero-trust"><div><Leaf/><span>Farm Fresh<br/>Quality</span></div><div><Truck/><span>Pan India<br/>Delivery</span></div><div><ShieldCheck/><span>Carefully<br/>Selected</span></div></div>
+          <div className="hero-ctas"><Button asChild variant="pill"><Link to="/products">Explore Products <ArrowRight/></Link></Button><Button asChild variant="heroOutline"><Link to="/about">Our Story <ArrowRight/></Link></Button></div>
+          <div className="hero-trust"><div><Leaf/><span>Farm Fresh<br/>Quality</span></div><div><Truck/><span>Trusted<br/>Sourcing</span></div><div><ShieldCheck/><span>Carefully<br/>Selected</span></div></div>
         </div>
       </section>
       <FarmIntro/>

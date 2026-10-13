@@ -9,7 +9,6 @@ export const demoProducts: Product[] = [
  { id: 'cardamom-seeds', name: 'Cardamom Seeds', description: 'Aromatic seeds from green cardamom, for grinding and spice blends.', price: 800, image: plantImage, category: 'seeds' },
 ];
 export let products: Product[] = demoProducts;
-export const packs = [100, 250, 500, 1000];
 export const money = (amount: number) => '₹' + amount.toLocaleString('en-IN');
 export function metadata(title: string, description: string) { return { meta: [{ title: `${title} | Elanex Spices` }, { name: 'description', content: description }, { property: 'og:title', content: `${title} | Elanex Spices` }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }; }
 
