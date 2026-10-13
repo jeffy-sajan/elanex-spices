@@ -4,7 +4,7 @@ import { Leaf, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { fetchProducts, metadata, type Product } from '@/lib/products';
 import { useEffect, useState } from 'react';
-import { ProductCard } from '@/components/store/product-card';
+import { ProductCard, ProductSkeleton } from '@/components/store/product-card';
 import { FarmIntro, AromaBanner, SectionHeading, ProcessSection, WhySection, CardamomUses } from '@/components/store/sections';
 import hero from '@/assets/cardamom-hero.jpg';
 export const Route = createFileRoute("/")({
@@ -14,7 +14,8 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [products, setProducts] = useState<Product[]>([]);
   const [catalogueError, setCatalogueError] = useState(false);
-  useEffect(() => { fetchProducts().then(setProducts).catch(() => setCatalogueError(true)); }, []);
+  const [productsLoading, setProductsLoading] = useState(true);
+  useEffect(() => { fetchProducts().then(setProducts).catch(() => setCatalogueError(true)).finally(() => setProductsLoading(false)); }, []);
   return (
     <>
       <section className="hero">
@@ -28,7 +29,7 @@ function Index() {
         </div>
       </section>
       <FarmIntro/>
-      <section className="products-section"><div className="container-site"><SectionHeading title="Our Cardamom Products" subtitle="A world of aroma, carefully selected for you."/>{catalogueError&&<p className="notice">Our latest catalogue is temporarily unavailable. Please visit the Products page and try again.</p>}<div className="product-grid">{products.slice(0,3).map(product=><ProductCard key={product.id} product={product}/>)}</div><div className="view-products"><Button asChild variant="outline"><Link to="/products">View All Products <ArrowRight/></Link></Button></div></div></section>
+      <section className="products-section"><div className="container-site"><SectionHeading title="Our Cardamom Products" subtitle="A world of aroma, carefully selected for you."/>{catalogueError&&<p className="notice">Our latest catalogue is temporarily unavailable. Please visit the Products page and try again.</p>}{productsLoading?<div className="product-grid product-grid-loading" aria-label="Loading products">{Array.from({length:3},(_,index)=><ProductSkeleton key={index}/>)}</div>:<div className="product-grid">{products.slice(0,3).map(product=><ProductCard key={product.id} product={product}/>)}</div>}<div className="view-products"><Button asChild variant="outline"><Link to="/products">View All Products <ArrowRight/></Link></Button></div></div></section>
       <AromaBanner/><ProcessSection/><WhySection/><CardamomUses/>
     </>
   );
