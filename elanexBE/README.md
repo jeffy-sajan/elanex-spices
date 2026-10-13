@@ -57,6 +57,10 @@ are saved with the product row in Supabase PostgreSQL. Replacing an image
 removes the previous Storage object; deleting a product removes both the
 database row and its Storage object.
 
+Product names must be unique because they generate the internal product slug.
+The admin form checks this before uploading an image, so duplicate names
+return a validation message without creating an orphaned Storage file.
+
 Admin operations fail with an actionable message instead of exposing a
 traceback. If a database save fails after an image upload, the newly uploaded
 image is cleaned up. If old-image cleanup fails after a successful save or

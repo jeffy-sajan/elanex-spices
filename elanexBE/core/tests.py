@@ -55,6 +55,25 @@ class ProductApiTests(TestCase):
 
 
 class ProductAdminTests(TestCase):
+    def test_duplicate_generated_slug_is_rejected_before_upload(self):
+        Product.objects.create(
+            name="8 mm",
+            slug="8-mm",
+            price="1200.00",
+            image_url="https://example.com/existing.png",
+        )
+        form = ProductAdminForm(
+            data={
+                "name": "8 mm",
+                "description": "",
+                "price": "1300",
+                "category": Product.Category.CARDAMOM,
+            }
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("already exists", str(form.errors))
+
     def test_price_must_be_positive(self):
         product = Product(
             name="Invalid price",
