@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from '@tanstack/react-router';
 import { Leaf, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { products, metadata } from '@/lib/products';
+import { fetchProducts, products as initialProducts, metadata, type Product } from '@/lib/products';
+import { useEffect, useState } from 'react';
 import { ProductCard } from '@/components/store/product-card';
 import { FarmIntro, AromaBanner, SectionHeading, ProcessSection, WhySection, CardamomUses } from '@/components/store/sections';
 import hero from '@/assets/cardamom-hero.jpg';
@@ -11,6 +12,8 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 function Index() {
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  useEffect(() => { fetchProducts().then(setProducts).catch(() => undefined); }, []);
   return (
     <>
       <section className="hero">

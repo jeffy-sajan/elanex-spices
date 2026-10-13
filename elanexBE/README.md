@@ -20,6 +20,10 @@ python manage.py runserver
 The health endpoint is available at
 `http://127.0.0.1:8000/api/health/`.
 
+The public product catalog is available at
+`http://127.0.0.1:8000/api/products/`. Products are managed through the Django
+admin at `http://127.0.0.1:8000/admin/`.
+
 ## Configuration
 
 Set `DJANGO_DEBUG=True` for local development; SQLite is available only in
@@ -30,6 +34,19 @@ database credentials.
 
 `CORS_ALLOWED_ORIGINS` accepts a comma-separated list and defaults to the
 local frontend development origins.
+
+## Product administration
+
+Create an admin account once from `elanexBE`:
+
+```powershell
+python manage.py createsuperuser
+```
+
+After starting the server, sign in at `/admin/` and add products under
+**Core > Products**. The product image field currently accepts a publicly
+accessible image URL. Supabase Storage can be connected for managed image
+uploads in a later step.
 
 ## Validation
 
