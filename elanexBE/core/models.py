@@ -3,13 +3,9 @@ from django.utils.text import slugify
 
 
 class Product(models.Model):
-    class Category(models.TextChoices):
-        PODS = "pods", "Whole cardamom"
-        SEEDS = "seeds", "Cardamom seeds"
-
     name = models.CharField(max_length=160)
     slug = models.SlugField(max_length=180, unique=True)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -17,20 +13,11 @@ class Product(models.Model):
     )
     image_url = models.URLField(max_length=500)
     image_path = models.CharField(max_length=500, blank=True)
-    category = models.CharField(
-        max_length=20,
-        choices=Category.choices,
-        default=Category.PODS,
-    )
-    grade = models.CharField(max_length=120)
-    badge = models.CharField(max_length=80, blank=True)
-    is_active = models.BooleanField(default=True)
-    display_order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ("display_order", "name")
+        ordering = ("name",)
 
     def save(self, *args, **kwargs):
         if not self.slug:

@@ -19,7 +19,7 @@ class ProductAdminForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        exclude = ("image_url", "image_path")
+        exclude = ("slug", "image_url", "image_path")
 
     def clean_image_upload(self):
         image = self.cleaned_data.get("image_upload")
@@ -36,12 +36,9 @@ class ProductAdminForm(forms.ModelForm):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
-    list_display = ("name", "category", "price", "is_active", "display_order")
-    list_filter = ("category", "is_active")
-    list_editable = ("price", "is_active", "display_order")
-    search_fields = ("name", "slug", "description", "grade")
-    prepopulated_fields = {"slug": ("name",)}
-    ordering = ("display_order", "name")
+    list_display = ("name", "price", "updated_at")
+    search_fields = ("name", "slug", "description")
+    ordering = ("name",)
 
     def save_model(self, request, obj, form, change):
         uploaded_image = form.cleaned_data.get("image_upload")

@@ -22,16 +22,6 @@ class ProductApiTests(TestCase):
             description="A public product.",
             price="1200.00",
             image_url="https://example.com/cardamom.png",
-            grade="Premium",
-        )
-        Product.objects.create(
-            name="Hidden Cardamom",
-            slug="hidden-cardamom",
-            description="An inactive product.",
-            price="1000.00",
-            image_url="https://example.com/hidden.png",
-            grade="Standard",
-            is_active=False,
         )
 
         response = APIClient().get("/api/products/")
@@ -39,3 +29,7 @@ class ProductApiTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["id"], "visible-cardamom")
+        self.assertEqual(
+            set(response.data[0]),
+            {"id", "name", "description", "price", "image"},
+        )

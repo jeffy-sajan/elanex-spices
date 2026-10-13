@@ -23,7 +23,7 @@ class ProductListView(APIView):
     permission_classes = []
 
     def get(self, request):
-        products = Product.objects.filter(is_active=True)
+        products = Product.objects.all()
         return Response(
             [
                 {
@@ -32,9 +32,6 @@ class ProductListView(APIView):
                     "description": product.description,
                     "price": product.price,
                     "image": product.image_url,
-                    "category": product.category,
-                    "badge": product.badge or None,
-                    "grade": product.grade,
                 }
                 for product in products
             ],
