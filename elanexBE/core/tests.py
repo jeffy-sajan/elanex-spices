@@ -55,24 +55,41 @@ class ProductApiTests(TestCase):
 
 
 class ProductAdminTests(TestCase):
-    def test_duplicate_generated_slug_is_rejected_before_upload(self):
-        Product.objects.create(
+    def test_duplicate_names_receive_unique_slugs(self):
+        first = Product.objects.create(
             name="8 mm",
             slug="8-mm",
             price="1200.00",
             image_url="https://example.com/existing.png",
         )
+        second = Product.objects.create(
+            name="8 mm",
+            price="1300.00",
+            image_url="https://example.com/second.png",
+        )
+
+        self.assertEqual(first.slug, "8-mm")
+        self.assertEqual(second.slug, "8-mm-2")
+
+    @patch("core.admin.storage_is_configured", return_value=True)
+    def test_duplicate_names_are_valid_in_admin_form(self, storage_configured):
         form = ProductAdminForm(
             data={
                 "name": "8 mm",
                 "description": "",
                 "price": "1300",
                 "category": Product.Category.CARDAMOM,
-            }
+            },
+            files={
+                "image_upload": SimpleUploadedFile(
+                    "cardamom.png",
+                    b"image",
+                    content_type="image/png",
+                )
+            },
         )
 
-        self.assertFalse(form.is_valid())
-        self.assertIn("already exists", str(form.errors))
+        self.assertTrue(form.is_valid(), form.errors)
 
     def test_price_must_be_positive(self):
         product = Product(

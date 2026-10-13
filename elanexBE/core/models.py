@@ -32,7 +32,14 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            base_slug = slugify(self.name)[:180]
+            candidate = base_slug
+            suffix = 2
+            while Product.objects.filter(slug=candidate).exists():
+                suffix_text = f"-{suffix}"
+                candidate = f"{base_slug[:180 - len(suffix_text)]}{suffix_text}"
+                suffix += 1
+            self.slug = candidate
         super().save(*args, **kwargs)
 
     def __str__(self):

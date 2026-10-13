@@ -6,7 +6,6 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.exceptions import ValidationError
 from django.db import DatabaseError, IntegrityError
 from django.http import HttpResponseRedirect
-from django.utils.text import slugify
 
 from .models import Product
 from .storage import (
@@ -33,16 +32,8 @@ class ProductAdminForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data["name"]
-        slug = slugify(name)
-        if not slug:
+        if not name.strip():
             raise ValidationError("Product name must contain letters or numbers.")
-        duplicate = Product.objects.filter(slug=slug)
-        if self.instance.pk:
-            duplicate = duplicate.exclude(pk=self.instance.pk)
-        if duplicate.exists():
-            raise ValidationError(
-                "A product with this name already exists. Use a different name."
-            )
         return name
 
     def clean_image_upload(self):
@@ -87,9 +78,9 @@ class ProductAdmin(admin.ModelAdmin):
             self.message_user(
                 request,
                 (
-                    "The product could not be saved because a product with the "
-                    "same name already exists or a database constraint was "
-                    "violated."
+                    "The product could not be saved because a database "
+                    "constraint was violated. Check the product values and try "
+                    "again."
                 ),
                 messages.ERROR,
             )
