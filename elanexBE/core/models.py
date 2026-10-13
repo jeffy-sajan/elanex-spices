@@ -16,6 +16,7 @@ class Product(models.Model):
         help_text="Price for the 100g pack, in Indian rupees.",
     )
     image_url = models.URLField(max_length=500)
+    image_path = models.CharField(max_length=500, blank=True)
     category = models.CharField(
         max_length=20,
         choices=Category.choices,
