@@ -99,3 +99,13 @@ For deployment, set `DJANGO_DEBUG=False`, a strong `DJANGO_SECRET_KEY`,
 `DATABASE_URL` in the hosting provider's secret environment settings. Run
 migrations before starting the web process and use a production WSGI/ASGI
 server rather than `runserver`.
+
+For Render from the repository root, use:
+
+```text
+Build Command: pip install -r elanexBE/requirements.txt && python elanexBE/manage.py collectstatic --noinput && python elanexBE/manage.py migrate
+Start Command: cd elanexBE && gunicorn config.wsgi:application
+```
+
+Set the backend's environment variables in Render's Environment page. Never
+paste `.env` into Git or expose server-only values to the frontend.
