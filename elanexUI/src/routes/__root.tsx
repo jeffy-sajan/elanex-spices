@@ -12,7 +12,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { Header, Footer } from "@/components/store/layout";
+import { Header, Footer, ContactDock } from "@/components/store/layout";
 
 function NotFoundComponent() {
   return (
@@ -154,6 +154,7 @@ function RootComponent() {
       <Header />
       <main><Outlet /></main>
       <Footer />
+      <ContactDock />
       <StartupScreen />
     </QueryClientProvider>
   );

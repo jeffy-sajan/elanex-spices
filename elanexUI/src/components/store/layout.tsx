@@ -1,8 +1,9 @@
 import { Link, useRouterState } from '@tanstack/react-router';
 import { useState } from 'react';
-import { Menu, X, MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
+import { Menu, X, MapPin, Phone, Mail, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BackendStatus } from '@/components/backend-status';
+import { whatsappContactUrl } from '@/lib/products';
 export function Brand() { return <Link to="/" className="brand" aria-label="Elanex Spices home"><img src="/elanex-logo.png" alt="Elanex Spices — From Grower to Global Market" className="brand-logo"/></Link>; }
 export function Header() {
  const [open,setOpen] = useState(false);
@@ -10,4 +11,5 @@ export function Header() {
  const overlay = pathname === '/';
  return <header className={`site-header ${overlay ? 'is-overlay' : ''}`}><div className="container-site header-inner"><Brand/><nav className={`main-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation" onClick={() => setOpen(false)}><Link to="/" activeOptions={{exact:true}}>Home</Link><Link to="/about">About</Link><Link to="/products">Products</Link><Link to="/our-process">Our Process</Link><Link to="/why-us">Why Us</Link><Link to="/contact">Contact</Link></nav><div className="header-actions"><Button variant="pill" asChild className="header-order" size="sm"><Link to="/contact">Enquire <ArrowUpRight size={12}/></Link></Button><Button variant="ghost" size="icon" className="mobile-menu-button" onClick={()=>setOpen(!open)} aria-label={open?'Close menu':'Open menu'} aria-expanded={open}>{open?<X/>:<Menu/>}</Button></div></div></header>;
 }
+export function ContactDock() { return <aside className="contact-dock" aria-label="Contact Elanex Spices"><a className="contact-dock-item contact-dock-phone" href="tel:+918921263343"><Phone size={17}/><span>Call us</span></a><a className="contact-dock-item contact-dock-whatsapp" href={whatsappContactUrl} target="_blank" rel="noopener noreferrer"><MessageCircle size={17}/><span>WhatsApp</span></a><a className="contact-dock-item contact-dock-email" href="mailto:elanexspices@gmail.com"><Mail size={17}/><span>Email</span></a></aside>; }
 export function Footer() { return <footer className="footer"><div className="container-site"><div className="footer-grid"><div className="footer-brand"><Brand/><p>From the green hills of Kerala to your home. Cardamom with a story, and an aroma to remember.</p><span className="footer-tagline">From Grower to Global Market</span></div><div className="footer-contact"><h4>Contact Elanex Spices</h4><div className="footer-contact-details"><address className="footer-contact-row"><MapPin size={15}/><span><strong>ELANEX SPICES</strong><br/>V.P VII/204, Kochara P.O<br/>Vandanmedu, 685551</span></address><a href="tel:+918921263343" className="footer-contact-row"><Phone size={15}/><span>+91 8921263343</span></a><a href="mailto:elanexspices@gmail.com" className="footer-contact-row"><Mail size={15}/><span>elanexspices@gmail.com</span></a><span className="footer-contact-row footer-gstin"><span>GSTIN: 32SZMPS4547B1ZV</span></span></div></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Elanex Spices. All rights reserved.</span><BackendStatus /></div></div></footer>; }
