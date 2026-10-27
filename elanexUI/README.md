@@ -45,4 +45,8 @@ cp .env.example .env
 
 For hosting, set `VITE_API_BASE_URL` to the public HTTPS URL of the Django API
 and rebuild the frontend. Do not add backend secrets, Supabase service-role
+
+Product enquiries open WhatsApp with a prefilled message using the public
+business number. The visitor must press Send, and the Contact page email form
+continues to work separately. Do not add backend secrets, Supabase service-role
 keys, or Resend API keys to frontend environment variables.

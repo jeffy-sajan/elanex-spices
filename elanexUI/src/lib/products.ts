@@ -1,6 +1,9 @@
 export type Product = { id: string; name: string; description: string | null; price: number; image: string; category: 'cardamom' | 'seeds' };
 export let products: Product[] = [];
 export const money = (amount: number) => '₹' + amount.toLocaleString('en-IN');
+const WHATSAPP_NUMBER = '918921263343';
+export const whatsappEnquiryUrl = (productName: string) =>
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello, I would like to enquire about this product: ${productName}.`)}`;
 export function metadata(title: string, description: string) { const pageTitle = title === 'Elanex Spices' ? title : `Elanex Spices | ${title}`; return { meta: [{ title: pageTitle }, { name: 'description', content: description }, { property: 'og:title', content: pageTitle }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }; }
 
 const API_BASE_URL =

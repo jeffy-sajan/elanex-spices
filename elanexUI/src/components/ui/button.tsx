@@ -10,6 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         pill: "rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-none",
+        whatsapp: "rounded-full bg-[#25D366] text-white hover:bg-[#20bd5a] shadow-none",
         heroOutline: "rounded-full border border-on-image/70 text-on-image bg-transparent hover:bg-on-image/10",
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
