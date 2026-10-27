@@ -8,7 +8,7 @@ export const whatsappEnquiryUrl = (productName: string) =>
 export function metadata(title: string, description: string) { const pageTitle = title === 'Elanex Spices' ? title : `Elanex Spices | ${title}`; return { meta: [{ title: pageTitle }, { name: 'description', content: description }, { property: 'og:title', content: pageTitle }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }; }
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api";
+  import.meta.env["VITE_API_BASE_URL"] ?? "http://127.0.0.1:8000/api";
 const PRODUCT_CACHE_KEY = "elanex-products-cache";
 const PRODUCT_CACHE_TTL_MS = 5 * 60 * 1000;
 
