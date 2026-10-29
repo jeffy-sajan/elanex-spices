@@ -61,7 +61,7 @@ class ProductListView(APIView):
             product_data,
             status=HTTP_200_OK,
         )
-        response["Cache-Control"] = "public, max-age=300, stale-while-revalidate=60"
+        response["Cache-Control"] = "no-store, max-age=0"
         return response
 
 

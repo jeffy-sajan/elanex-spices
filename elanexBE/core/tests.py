@@ -98,7 +98,7 @@ class ProductApiTests(TestCase):
         )
         self.assertEqual(
             response["Cache-Control"],
-            "public, max-age=300, stale-while-revalidate=60",
+            "no-store, max-age=0",
         )
 
     def test_products_include_category(self):

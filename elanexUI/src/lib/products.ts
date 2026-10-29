@@ -9,44 +9,13 @@ export function metadata(title: string, description: string) { const pageTitle =
 
 const API_BASE_URL =
   import.meta.env["VITE_API_BASE_URL"] ?? "http://127.0.0.1:8000/api";
-const PRODUCT_CACHE_KEY = "elanex-products-cache";
-const PRODUCT_CACHE_TTL_MS = 5 * 60 * 1000;
-
-type ProductCache = {
-  products: Product[];
-  cachedAt: number;
-};
-
 let productsRequest: Promise<Product[]> | null = null;
 
-function readProductCache(): Product[] | null {
-  try {
-    const stored = globalThis.localStorage?.getItem(PRODUCT_CACHE_KEY);
-    if (!stored) return null;
-    const cache = JSON.parse(stored) as ProductCache;
-    if (
-      !Array.isArray(cache.products) ||
-      typeof cache.cachedAt !== "number" ||
-      Date.now() - cache.cachedAt >= PRODUCT_CACHE_TTL_MS
-    ) {
-      return null;
-    }
-    return cache.products;
-  } catch {
-    return null;
-  }
-}
-
 export function fetchProducts(): Promise<Product[]> {
-  const cachedProducts = readProductCache();
-  if (cachedProducts) {
-    products = cachedProducts;
-    return Promise.resolve(cachedProducts);
-  }
-
   if (!productsRequest) {
     productsRequest = fetch(`${API_BASE_URL}/products/`, {
       headers: { Accept: "application/json" },
+      cache: "no-store",
     })
       .then(async (response) => {
         if (!response.ok) {
@@ -54,14 +23,6 @@ export function fetchProducts(): Promise<Product[]> {
         }
         const data = (await response.json()) as Product[];
         products = data;
-        try {
-          globalThis.localStorage?.setItem(
-            PRODUCT_CACHE_KEY,
-            JSON.stringify({ products: data, cachedAt: Date.now() } satisfies ProductCache),
-          );
-        } catch {
-          // The API response remains usable when browser storage is unavailable.
-        }
         return data;
       })
       .finally(() => {

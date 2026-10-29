@@ -110,11 +110,11 @@ Start Command: cd elanexBE && gunicorn config.wsgi:application
 Set the backend's environment variables in Render's Environment page. Never
 paste `.env` into Git or expose server-only values to the frontend.
 
-The public product catalogue uses a five-minute browser/CDN cache. The backend
-also writes a lightweight `data/products.json` snapshot whenever a product is
-saved or deleted. Set `USE_PRODUCT_CATALOG_FILE=true` to serve this snapshot
-first and avoid a database query on public catalogue requests. The frontend
-stores the catalogue locally for five minutes and shares an in-flight request
-when multiple pages request products at the same time. Product changes therefore
-appear fast without requiring Redis. The database remains the source of truth,
-so admin edits survive Render redeploys.
+The backend writes a lightweight `data/products.json` snapshot whenever a
+product is saved or deleted. Set `USE_PRODUCT_CATALOG_FILE=true` to serve this
+snapshot first and avoid a database query on public catalogue requests. The
+product API uses `no-store` and the frontend requests fresh data on each page
+load, while still deduplicating simultaneous requests. This ensures admin price,
+image, and product changes appear immediately after a refresh without requiring
+Redis. The database remains the source of truth, so admin edits survive Render
+redeploys.
