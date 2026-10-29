@@ -34,6 +34,7 @@ if not DEBUG and not ALLOWED_HOSTS:
     )
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -44,6 +45,41 @@ INSTALLED_APPS = [
     "corsheaders",
     "core",
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Elanex Spices Admin",
+    "site_header": "Elanex Spices",
+    "site_brand": "Elanex Spices",
+    "welcome_sign": "Welcome to the Elanex Spices administration",
+    "copyright": "Elanex Spices",
+    "show_ui_builder": False,
+    "navigation_expanded": True,
+    "changeform_format": "horizontal_tabs",
+    "related_modal_active": True,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "sidebar_nav_small_text": False,
+    "button_small_text": False,
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_flat_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_compact_style": False,
+    "brand_colour": "navbar-success",
+    "accent": "accent-success",
+    "navbar_fixed": True,
+    "sidebar_fixed": True,
+    "footer_fixed": False,
+    "layout_boxed": False,
+    "actions_sticky_top": True,
+}
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
