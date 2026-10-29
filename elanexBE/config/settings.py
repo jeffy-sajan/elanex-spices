@@ -136,6 +136,7 @@ SUPABASE_STORAGE_BUCKET = os.getenv(
     "SUPABASE_STORAGE_BUCKET",
     "product-images",
 )
+USE_PRODUCT_CATALOG_FILE = os.getenv("USE_PRODUCT_CATALOG_FILE", "true").lower() == "true"
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
 CONTACT_RECIPIENT_EMAIL = os.getenv(

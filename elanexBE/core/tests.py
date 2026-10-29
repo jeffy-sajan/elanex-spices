@@ -1,17 +1,21 @@
+import json
+import tempfile
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from django.contrib import admin
 from django.db import DatabaseError, IntegrityError
 from django.core.exceptions import ValidationError
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, override_settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.test import APIClient
 from rest_framework.throttling import ScopedRateThrottle
+from pathlib import Path
 
 from .admin import ProductAdminForm
 from .models import Product
 
+@override_settings(USE_PRODUCT_CATALOG_FILE=False)
 class HealthCheckTests(SimpleTestCase):
     def test_health_check_returns_service_status(self):
         response = APIClient().get("/api/health/")
@@ -72,6 +76,7 @@ class ContactMessageTests(SimpleTestCase):
         self.assertEqual(response.status_code, 400)
 
 
+@override_settings(USE_PRODUCT_CATALOG_FILE=False)
 class ProductApiTests(TestCase):
     def test_products_are_returned_oldest_first(self):
         first = Product.objects.create(
@@ -125,6 +130,40 @@ class ProductApiTests(TestCase):
             set(products_by_id["visible-cardamom"]),
             {"id", "name", "description", "price", "image", "category"},
         )
+
+
+class ProductCatalogCacheTests(SimpleTestCase):
+    def test_api_serves_generated_catalog_without_database_query(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            catalog_directory = Path(temporary_directory) / "data"
+            catalog_directory.mkdir()
+            (catalog_directory / "products.json").write_text(
+                json.dumps(
+                    [
+                        {
+                            "id": "cached-cardamom",
+                            "name": "Cached Cardamom",
+                            "description": "Cached product",
+                            "price": "1200.00",
+                            "image": "https://example.com/cached.png",
+                            "category": "cardamom",
+                        }
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            with override_settings(
+                BASE_DIR=Path(temporary_directory),
+                USE_PRODUCT_CATALOG_FILE=True,
+            ):
+                with patch(
+                    "core.views.Product.objects.all",
+                    side_effect=AssertionError("database should not be queried"),
+                ):
+                    response = APIClient().get("/api/products/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["id"], "cached-cardamom")
 
 
 class ProductAdminTests(TestCase):

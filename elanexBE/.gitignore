@@ -2,6 +2,7 @@
 *.py[cod]
 __pycache__/
 db.sqlite3
+data/products.json
 .pytest_cache/
 .coverage
 htmlcov/

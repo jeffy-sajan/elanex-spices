@@ -8,6 +8,7 @@ from django.db import DatabaseError, IntegrityError
 from django.http import HttpResponseRedirect
 
 from .models import Product
+from .catalog import write_product_catalog
 from .storage import (
     ALLOWED_IMAGE_TYPES,
     MAX_IMAGE_SIZE,
@@ -132,6 +133,7 @@ class ProductAdmin(admin.ModelAdmin):
                     f"Product saved, but the previous image could not be removed: {error}",
                     messages.WARNING,
                 )
+        write_product_catalog(Product.objects.order_by("created_at", "id"))
 
     def delete_model(self, request, obj):
         image_path = obj.image_path
@@ -144,6 +146,7 @@ class ProductAdmin(admin.ModelAdmin):
                 f"Product deleted, but its image could not be removed: {error}",
                 messages.WARNING,
             )
+        write_product_catalog(Product.objects.order_by("created_at", "id"))
 
     def delete_queryset(self, request, queryset):
         image_paths = list(queryset.values_list("image_path", flat=True))
@@ -157,3 +160,4 @@ class ProductAdmin(admin.ModelAdmin):
                     f"Products deleted, but an image could not be removed: {error}",
                     messages.WARNING,
                 )
+        write_product_catalog(Product.objects.order_by("created_at", "id"))

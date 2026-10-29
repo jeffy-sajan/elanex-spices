@@ -103,14 +103,18 @@ server rather than `runserver`.
 For Render from the repository root, use:
 
 ```text
-Build Command: pip install -r elanexBE/requirements.txt && python elanexBE/manage.py collectstatic --noinput && python elanexBE/manage.py migrate
+Build Command: pip install -r elanexBE/requirements.txt && python elanexBE/manage.py collectstatic --noinput && python elanexBE/manage.py migrate && python elanexBE/manage.py export_product_catalog
 Start Command: cd elanexBE && gunicorn config.wsgi:application
 ```
 
 Set the backend's environment variables in Render's Environment page. Never
 paste `.env` into Git or expose server-only values to the frontend.
 
-The public product catalogue uses a five-minute browser/CDN cache. The frontend
-also stores the catalogue locally for five minutes and shares an in-flight
-request when multiple pages request products at the same time. Product changes
-will therefore normally appear within five minutes without requiring Redis.
+The public product catalogue uses a five-minute browser/CDN cache. The backend
+also writes a lightweight `data/products.json` snapshot whenever a product is
+saved or deleted. Set `USE_PRODUCT_CATALOG_FILE=true` to serve this snapshot
+first and avoid a database query on public catalogue requests. The frontend
+stores the catalogue locally for five minutes and shares an in-flight request
+when multiple pages request products at the same time. Product changes therefore
+appear fast without requiring Redis. The database remains the source of truth,
+so admin edits survive Render redeploys.

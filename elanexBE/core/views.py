@@ -12,6 +12,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_502_BA
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
+from .catalog import read_product_catalog
 from .models import Product
 
 logger = logging.getLogger(__name__)
@@ -36,18 +37,20 @@ class ProductListView(APIView):
 
     def get(self, request):
         try:
-            products = Product.objects.all()
-            product_data = [
-                {
-                    "id": product.slug,
-                    "name": product.name,
-                    "description": product.description,
-                    "price": product.price,
-                    "image": product.image_url,
-                    "category": product.category,
-                }
-                for product in products
-            ]
+            product_data = read_product_catalog()
+            if product_data is None:
+                products = Product.objects.all()
+                product_data = [
+                    {
+                        "id": product.slug,
+                        "name": product.name,
+                        "description": product.description,
+                        "price": product.price,
+                        "image": product.image_url,
+                        "category": product.category,
+                    }
+                    for product in products
+                ]
         except DatabaseError:
             logger.exception("Product catalogue request failed")
             return Response(
