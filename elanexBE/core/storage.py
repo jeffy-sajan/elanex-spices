@@ -1,4 +1,5 @@
 import json
+import logging
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 from uuid import uuid4
@@ -6,6 +7,8 @@ from uuid import uuid4
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
+
+logger = logging.getLogger(__name__)
 
 ALLOWED_IMAGE_TYPES = {
     "image/jpeg": ".jpg",
@@ -104,6 +107,13 @@ def delete_product_image(path: str) -> None:
                 )
     except HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")[:300]
+        if error.code == 404 or "NoSuchBucket" in detail or '"statusCode":"404"' in detail:
+            logger.warning(
+                "Supabase image cleanup skipped because the storage object or "
+                "bucket no longer exists: %s",
+                path,
+            )
+            return
         raise StorageOperationError(
             f"Supabase Storage image deletion failed (HTTP {error.code}): {detail}"
         ) from error
