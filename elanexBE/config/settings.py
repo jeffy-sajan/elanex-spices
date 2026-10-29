@@ -34,6 +34,7 @@ if not DEBUG and not ALLOWED_HOSTS:
     )
 
 INSTALLED_APPS = [
+    "unfold",
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -45,6 +46,31 @@ INSTALLED_APPS = [
     "corsheaders",
     "core",
 ]
+
+UNFOLD = {
+    "SITE_TITLE": "Elanex Spices Admin",
+    "SITE_HEADER": "Elanex Spices",
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "local_florist",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "SHOW_BACK_BUTTON": True,
+    "COLORS": {
+        "primary": {
+            "50": "240, 253, 244",
+            "100": "220, 252, 231",
+            "200": "187, 247, 208",
+            "300": "134, 239, 172",
+            "400": "74, 222, 128",
+            "500": "34, 197, 94",
+            "600": "22, 163, 74",
+            "700": "21, 128, 61",
+            "800": "22, 101, 52",
+            "900": "20, 83, 45",
+            "950": "5, 46, 22",
+        },
+    },
+}
 
 JAZZMIN_SETTINGS = {
     "site_title": "Elanex Spices Admin",
