@@ -19,7 +19,7 @@ Copy-Item .env.example .env
 Set the project ID in `elanexCMS/.env`:
 
 ```text
-SANITY_STUDIO_PROJECT_ID=your-project-id
+SANITY_STUDIO_PROJECT_ID=5tugpqtz
 SANITY_STUDIO_DATASET=production
 ```
 
@@ -32,6 +32,16 @@ npm run dev
 Open the local Studio URL shown in the terminal and sign in with the Sanity
 account. Add a product under **Product**. Product fields include name, URL ID,
 description, indicative price, image, category, display order, and visibility.
+
+If the Studio shows **This studio is not registered and cannot access your
+content yet**, verify all of the following:
+
+1. `SANITY_STUDIO_PROJECT_ID` is exactly `5tugpqtz` (not `y5tugpqtz`).
+2. Run `npx sanity login` from this folder and complete the browser login.
+3. In Sanity Manage, add the exact local Studio origin shown by the terminal
+   under **API > CORS origins** (usually `http://localhost:3333`).
+4. Confirm the logged-in account is a member of project `5tugpqtz`.
+5. Stop and restart `npm run dev`.
 
 ## Deploy the Studio
 
