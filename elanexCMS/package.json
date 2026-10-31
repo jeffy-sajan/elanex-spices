@@ -1,0 +1,22 @@
+{
+  "name": "elanex-spices-studio",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "import:products": "node scripts/import-products.mjs"
+  },
+  "dependencies": {
+    "@sanity/client": "^8.14.1",
+    "@sanity/vision": "^4.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "sanity": "^4.0.0",
+    "styled-components": "^6.1.15",
+    "styled-components": "^6.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

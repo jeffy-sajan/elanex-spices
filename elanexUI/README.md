@@ -6,9 +6,8 @@ cultivator and seller.
 Tech stack:
 
 - Frontend: Vite, React, TypeScript, and TanStack Router
-- Backend: Django and Django REST Framework
-- Database: Supabase PostgreSQL
-- Storage: Supabase Storage
+- Product CMS: Sanity
+- Transitional backend: Django and Django REST Framework for contact email
 
 This project was built with [Lovable](https://lovable.dev) and uses Vite,
 TanStack Router, and React.
@@ -36,15 +35,17 @@ npm install
 npm run dev
 ```
 
-The frontend calls the Django backend health endpoint using
-`VITE_API_BASE_URL`. Copy `.env.example` to `.env` for the local default:
+Products are read from Sanity when `VITE_SANITY_PROJECT_ID` is configured.
+Copy `.env.example` to `.env` for the local defaults:
 
 ```sh
 cp .env.example .env
 ```
 
-For hosting, set `VITE_API_BASE_URL` to the public HTTPS URL of the Django API
-and rebuild the frontend. Do not add backend secrets, Supabase service-role
+For hosting, set the Sanity `VITE_*` variables in Vercel and rebuild the
+frontend. During migration, `VITE_API_BASE_URL` remains the URL of the Django
+API used by the Contact page and as the temporary product fallback. Do not add
+backend secrets, Sanity write tokens, Supabase service-role
 
 Product enquiries open WhatsApp with a prefilled message using the public
 business number. The visitor must press Send, and the Contact page email form
